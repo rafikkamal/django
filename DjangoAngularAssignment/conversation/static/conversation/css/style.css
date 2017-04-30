@@ -1,0 +1,16 @@
+.conversation_list{
+    list-style-type: none;
+}
+.conversation_item{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 25px;
+    border: 2px solid blue;
+    border-bottom:none;
+}
+.conversation_item:last-child{
+    border-bottom: 2px solid blue;
+}
+.conversation_form{
+    display: inline-block;
+}

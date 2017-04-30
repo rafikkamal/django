@@ -1,0 +1,50 @@
+{% extends 'conversation\base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="col-sm-6">
+        {% if conversation %}
+            <ul class="list-group">
+            {% for con in conversation %}
+                {% if con.archive == False %}
+                    <li class="list-group-item">
+                        <h4 class="list-group-item-heading">{{con.message}} - {{con.created_at}}</h4>
+                        <p class="list-group-item-text">
+                            <form action="{% url 'conversation:conversation_process_edit' user.id  %}" method="POST" class="conversation_form">
+                                {% csrf_token %}
+                                <input type="hidden" name="conversation" value="{{id}}">
+                                <input type="hidden" name="conversation_id" value="{{con.id}}">
+                                <input type="text" name="message" id="message" value="{{con.message}}">
+                                <input type="submit" class="btn btn-success" value="EDIT">
+                            </form>
+                             <form action="{% url 'conversation:conversation_process_delete' user.id  %}" method="POST" class="conversation_form">
+                                {% csrf_token %}
+                                <input type="hidden" name="conversation" value="{{id}}">
+                                <input type="hidden" name="conversation_id" value="{{con.id}}">
+                                <input type="submit" value="DELETE" class="btn btn-danger">
+                            </form>
+                            <form action="{% url 'conversation:conversation_process_archive' user.id  %}" method="POST" class="conversation_form">
+                                {% csrf_token %}
+                                <input type="hidden" name="conversation" value="{{id}}">
+                                <input type="hidden" name="conversation_id" value="{{con.id}}">
+                                <input type="submit" value="ARCHIVE" class="btn btn-warning">
+                        </form>
+                        </p>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <div class="col-sm-6">
+        <form action="{% url 'conversation:conversation_process' user.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="conversation" value="{{id}}">
+            <input type="text" name="message" id="message">
+            <input type="submit" class="btn btn-primary" value="SEND">
+        </form>
+    </div>
+
+</div>
+{% endblock %}
